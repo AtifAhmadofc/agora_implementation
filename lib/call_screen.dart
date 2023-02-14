@@ -30,13 +30,10 @@ class _CallScreenState extends State<CallScreen> {
       ),
     );
     await client!.initialize();
-
-    print(client!.isInitialized);
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     client!.sessionController.value.engine?.leaveChannel();
     if (client!.sessionController.value.connectionData!.rtmEnabled) {
@@ -57,12 +54,17 @@ class _CallScreenState extends State<CallScreen> {
         child: Stack(
           children: [
             AgoraVideoViewer(
+
               client: client!,
               layoutType: Layout.floating,
-              enableHostControls: true, // Add this to enable host controls
+              enableHostControls: true,
             ),
+
             AgoraVideoButtons(
               client: client!,
+              onDisconnect: (){
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
